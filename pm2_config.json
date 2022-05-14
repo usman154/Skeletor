@@ -1,0 +1,9 @@
+{
+    "apps": [{
+        "name": "Mk Covid19",
+        "script": "./bin/start.js",
+        "watch": true,
+        "exec_interpreter": "babel-node",
+        "exec_mode": "fork"
+    }]
+}
