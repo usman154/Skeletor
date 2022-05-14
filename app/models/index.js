@@ -1,3 +1,3 @@
-import LocationModel from './location.model';
-import UserModel from './user.model';
-import RoleModel from './role.model';
+import models from "../config/database/sql_models";
+
+module.exports = models;

@@ -6,7 +6,7 @@ import http from "http";
 import helmet from "helmet";
 import compression from "compression";
 import { Api } from "../../lib";
-import Initializer from "./initializer";
+import initializer from "./initializer";
 
 import { Logger, AppSetting, ApiRouting, ApiDoc } from "../../app/config";
 import cors from "cors";
@@ -14,6 +14,7 @@ import cors from "cors";
 class Server {
   constructor() {
     this.app = express();
+    initializer.run(this.app);
     this.router = express.Router();
     this.configure();
   }

@@ -6,7 +6,7 @@ import { JWTMiddleware } from '../../../../lib/middleware';
 module.exports = async (router) => {
     router.get('/user', auth.required, access.required,  await userController.getUser);
     router.get('/user/:userId', auth.required, access.required, await userController.getUserByUserId);
-    router.post('/user', auth.required, access.required,  await userController.addUser);
+    router.post('/user', await userController.addUser);
     router.put('/user', auth.required, access.required,  await userController.updateUser);
     router.delete('/user/:userId', auth.required, access.required, await userController.deleteUser);
     router.post('/login', JWTMiddleware);

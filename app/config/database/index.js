@@ -2,5 +2,6 @@
 import AppSetting from "../app.setting";
 
 const CONFIGS = AppSetting.getConfig();
-
-require(`./${CONFIGS.DB.DB_TYPE}`);
+module.exports = function(app) {
+  require(`./${CONFIGS.DB.DB_TYPE}`)(app);
+};

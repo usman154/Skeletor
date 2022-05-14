@@ -1,37 +1,36 @@
-import mongoose from 'mongoose';
 import { CustomMongoose } from "../../../../lib";
-// const User = mongoose.model('user');
+import { User } from "../../../models";
 
 class UserService {
-  constructor() { }
+  constructor() {}
 
   async getUser(request) {
     let query = CustomMongoose.getUserQuery(request);
     let pipeline = [
       {
-        $match: query
+        $match: query,
       },
       {
         $lookup: {
-          from: 'locations',
-          localField: 'location_id',
-          foreignField: 'location_id',
-          as: 'location',
-        }
+          from: "locations",
+          localField: "location_id",
+          foreignField: "location_id",
+          as: "location",
+        },
       },
       {
-        "$addFields": {
-          location_name: { $first: "$location.name" }
-        }
+        $addFields: {
+          location_name: { $first: "$location.name" },
+        },
       },
       {
         $project: {
-          "location": 0,
+          location: 0,
           hash: 0,
-          salt: 0
-        }
-      }
-    ]
+          salt: 0,
+        },
+      },
+    ];
     let response = await User.aggregate(pipeline);
     return response;
   }
@@ -45,26 +44,22 @@ class UserService {
     let query = { active: true, user_id: { $in: userIds } };
     let response = await User.find(query).lean();
     return response;
-
   }
 
   async setUser(data, user) {
     user.user_id = data.user_id;
     user.name = data.name;
-    user.email = data.email;
-    user.phone = data.phone;
-    user.location_id = data.location_id;
-    user.role_id = data.role_id;
-    user.created_by = data.created_by;
-    if (data.password && data.password != 'defaultpassword') { // this value is set up from frontend
+    user.email = data.email.toLowerCase();
+    user.type = data.type;
+    if (data.password && data.password != "defaultpassword") {
+      // this value is set up from frontend
       user.setPassword(data.password);
     }
     let userObject = await user.save();
-    let cloned = await this.userResponseObject(userObject);
+    let cloned = await user.formatUser();
     return {
       token: user.generateJwt(),
-      ...cloned
-
+      ...cloned,
     };
   }
   async addUser(data) {
@@ -78,14 +73,16 @@ class UserService {
 
   async deleteUser(userId) {
     let data = {
-      active: false
-    }
-    let response = User.findOneAndUpdate({ user_id: userId }, data, { new: true });
+      active: false,
+    };
+    let response = User.findOneAndUpdate({ user_id: userId }, data, {
+      new: true,
+    });
     return response;
   }
 
   async userResponseObject(userObject) {
-    let cloned = (await userObject).toObject();
+    let cloned = userObject;
     delete cloned.hash;
     delete cloned.salt;
     return cloned;

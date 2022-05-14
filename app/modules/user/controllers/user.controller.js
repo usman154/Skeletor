@@ -27,7 +27,6 @@ class UserController {
     async addUser(request, response) {
         try {
             request.body.user_id = UIDGenerator.getUniqueId();
-            request.body.created_by = request.userInfo.user_id;
             let result = await userService.addUser(request.body);
             Api.added(request, response, result, 'User');
         } catch (err) {

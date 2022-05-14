@@ -1,6 +1,13 @@
-import { Database } from "../../app/config";
-// require("../../app/config/passport");
+
+require("../../app/config/passport");
 import { RoleService } from "../../app/services";
+
+function run(app) {
+  loadPermissions();
+  import('../../app/config/database').then((connection)=> {
+    connection.default(app);
+  })
+}
 async function loadPermissions() {
   let permissions = {};
 
@@ -12,5 +19,7 @@ async function loadPermissions() {
   }
   global.permissions = permissions;
 }
-loadPermissions();
-export { loadPermissions };
+
+module.exports = {
+  run: run
+}

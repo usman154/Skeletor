@@ -1,14 +1,13 @@
-const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-
-const Users = mongoose.model('user');
+import { Op } from "sequelize";
+import { User } from "../models";
 
 passport.use(new LocalStrategy({
   usernameField: 'user[email]',
   passwordField: 'user[password]',
 }, (email, password, done) => {
-  Users.findOne({ email: new RegExp("^" + email + "$", "i") })
+  User.findOne({ where: { email: {[Op.like]: `%${email.toLowerCase()}%` } } })
     .then((user) => {
       if(!user || !user.validatePassword(password)) {
         return done(null, false, { errors: { 'email or password': 'is invalid' } });

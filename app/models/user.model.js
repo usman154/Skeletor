@@ -1,80 +1,80 @@
-import { AppSetting } from '../config/app.setting';
-const crypto = require('crypto');
-const jwt = require('jsonwebtoken');
+const Sequelize = require("sequelize");
+const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
+import { AppSetting } from "../config";
 const CONFIG = AppSetting.getConfig();
-import mongoose from 'mongoose';
-
-const USER = new mongoose.Schema({
-    user_id: {
-        type: String,
-        required: true,
-        unique: true
+module.exports = function(sequelize) {
+  const User = sequelize.define(
+    "User",
+    {
+      user_id: {
+        primaryKey: true,
+        type: Sequelize.STRING,
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: false,
+        validate: {
+          isEmail: true
+        }
+      },
+      name: {
+        type: Sequelize.STRING,
+      },
+      type: {
+        type: Sequelize.STRING,
+      },
+      hash: {
+        type: Sequelize.STRING,
+      },
+      salt: {
+        type: Sequelize.STRING,
+      },
+      isAdmin: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
     },
-    email: {
-        type: String,
-        unique: true,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    location_id: {
-        type: String,
-        required: true
-    },
-    role_id: {
-        type: String,
-        required: true
-    },
-    hash: String,
-    salt: String,
-    phone: {
-        type: String,
-        require: true
-    },
-    created_by: {
-        type: String,
-        required: false
-    },
-    active: {
-        type: Boolean,
-        default: true
+    {
+      timestamps: true,
     }
-}, { strict: true, timestamps: true });
-USER.methods.setPassword = function(password) {
-    this.salt = crypto.randomBytes(16).toString('hex');
-    this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha512').toString('hex');
-};
-USER.methods.validatePassword = function(password) {
-    var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha512').toString('hex');
-    return this.hash === hash;
-};
-
-USER.methods.generateJwt = function(timeExp) {
+  );
+  User.prototype.setPassword = function(password) {
+    this.salt = crypto.randomBytes(16).toString("hex");
+    this.hash = crypto
+      .pbkdf2Sync(password, this.salt, 1000, 64, "sha512")
+      .toString("hex");
+  };
+  User.prototype.generateJwt = function(timeExp) {
     var expiry = new Date();
     var expiryDays = timeExp || 1;
     expiry.setDate(expiry.getDate() + expiryDays);
-    return jwt.sign({
-        user_id: this.user_id,
+    return jwt.sign(
+      {
+        id: this.id,
         email: this.email,
         name: this.name,
-        location_id: this.location_id,
-        phone: this.phone,
-        role: this.role,
+        type: this.type,
         exp: parseInt(expiry.getTime() / 1000),
-    }, CONFIG.APP.PASSWORD_SECRET); // DO NOT KEEP YOUR SECRET IN THE CODE!
-};
-USER.methods.formatUser = function() {
+      },
+      CONFIG.APP.PASSWORD_SECRET
+    ); // DO NOT KEEP YOUR SECRET IN THE CODE!
+  };
+  User.prototype.validatePassword = function(password) {
+    var hash = crypto
+      .pbkdf2Sync(password, this.salt, 1000, 64, "sha512")
+      .toString("hex");
+    return this.hash === hash;
+  };
+  User.prototype.formatUser = function() {
     return {
         user_id: this.user_id,
         email: this.email,
         name: this.name,
-        phone: this.phone,
-        role_id: this.role_id,
-        menu_items: this.menu_items,
-        location_id: this.location_id,
+        type: this.type,
+        isAdmin: this.isAdmin
     };
 };
-
-mongoose.model('user', USER);
+  return User;
+};
