@@ -52,11 +52,9 @@ process.on("SIGTERM", function() {
 fs.readdirSync(modelsPath)
   .filter((file) => file.indexOf(".") !== 0 && file !== "index.js")
   .forEach((file) => {
-    console.log(join(modelsPath, file));
     const sModel = require(join(modelsPath, file))(mongoose);
     const model = sModel;
-    console.log(model);
-    db[model.name] = model;
+    db[model.modelName] = model;
   });
 
-module.exports = db;
+module.exports = {...db};

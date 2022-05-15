@@ -79,7 +79,7 @@ module.exports = function(sequelize) {
 /**
  * This is how you can use Mongoose with it
  * 
- * import { SchemaDefiner } from "../../lib";
+import { SchemaDefiner } from "../../lib";
 
 module.exports = function(mongoose){
     const schemaObject = {
