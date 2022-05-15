@@ -1,12 +1,12 @@
 import Sequelize from "sequelize";
 import fs from "fs";
-import { AppSetting, Logger } from "..";
+import { AppSetting, Logger } from "../..";
 import { join } from "path";
 import lodash from "lodash";
 const db = {};
 const CONFIG = AppSetting.getConfig();
 const CONNECTION_INFO = AppSetting.getDBConnection();
-const modelsPath = join(__dirname, "..", "..", "models");
+const modelsPath = join(__dirname, "..", "..", ".." , "models");
 
 const sequelize = new Sequelize(
   CONNECTION_INFO.database,
@@ -17,6 +17,7 @@ const sequelize = new Sequelize(
     port: CONNECTION_INFO.port,
     dialect: CONFIG.DB.DIALECT,
     query: { raw: false },
+    logging: false,
     pool: {
       max: 5,
       min: 0,

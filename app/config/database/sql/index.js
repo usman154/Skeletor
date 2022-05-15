@@ -1,5 +1,5 @@
 module.exports = function(app) {
-  const models = require("../sql_models");
+  const models = require("./sql");
   app.set("sequelize", models.sequelize);
   app.set("models", models.sequelize.models);
   models.sequelize
