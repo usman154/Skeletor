@@ -9,8 +9,14 @@ Routes will be added inside `routes` folder. Note: Make sure to end the route fi
 Controllers should be added under `controllers` directory inside modules
 Services ( the business logic and the code to read/write local/remote repositories) should be added under `services` directory
 
-*Note:* Refer to any existing module [here](https://github.com/usman154/Skeletor/tree/master/app/modules). 
+**Note:** Refer to any existing module [here](https://github.com/usman154/Skeletor/tree/master/app/modules). 
 
 The heart of this application is the environment file `.env`. Please add the keys in that file so application could connect with the database and use other system resources.
+
+To start the application:
+
+**npm install**
+
+**npm run start:dev**
 
 For any further queries, I am only one mail away [Muhammad Usman](mailto:m.usmanrana154@gmail.com)
