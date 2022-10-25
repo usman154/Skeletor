@@ -19,4 +19,6 @@ To start the application:
 
 **npm run start:dev**
 
+*this project also supports pm2, which can be configured based on the need of the project.*
+
 For any further queries, I am only one mail away [Muhammad Usman](mailto:m.usmanrana154@gmail.com)
