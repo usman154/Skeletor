@@ -19,9 +19,6 @@
     "name": "Usman Rana",
     "email": "m.usmanrana154@gmail.com"
   },
-  "contributors": [
-    "Muhammad Awais <mailawais709@gmail.com>"
-  ],
   "main": "bin/start.js",
   "scripts": {
     "start": "npm run start:prod",
