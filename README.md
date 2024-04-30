@@ -1,24 +1,44 @@
 # SKELETOR
 
-This project can be used a boilerplate for Nodejs backend. The edge point of this boilerplate is that, it supports both SQL and NoSql databases. 
+Skeletor is a versatile Node.js boilerplate for building backend applications. It provides a solid foundation for projects that require support for both SQL and NoSQL databases.
 
-Add your modules under [module](https://github.com/usman154/Skeletor/tree/master/app/modules). 
+## Getting Started
 
-Routes will be added inside `routes` folder. Note: Make sure to end the route file with `.route.js` so that Skelator could find the files and register the routes with `express` framework.
+1. **Modules**: Add your application modules under the [modules](https://github.com/usman154/Skeletor/tree/master/app/modules) directory. Each module should contain routes, controllers, and services.
 
-Controllers should be added under `controllers` directory inside modules
-Services ( the business logic and the code to read/write local/remote repositories) should be added under `services` directory
+2. **Routes**: Define your API routes inside the `routes` folder. Ensure that each route file has a `.route.js` extension so that Skeletor can automatically register them with the Express framework.
 
-**Note:** Refer to any existing module [here](https://github.com/usman154/Skeletor/tree/master/app/modules). 
+3. **Controllers**: Controllers should be added under the `controllers` directory within each module. These controllers handle the request/response logic for each route.
 
-The heart of this application is the environment file `.env`. Please add the keys in that file so application could connect with the database and use other system resources.
+4. **Services**: Business logic and code to interact with databases or external resources should be placed under the `services` directory within each module.
 
-To start the application:
+**Note:** You can refer to existing modules [here](https://github.com/usman154/Skeletor/tree/master/app/modules) for guidance on structuring your modules.
 
-**npm install**
+## Environment Configuration
 
-**npm run start:dev**
+The `.env` file is the heart of the application. Add your environment variables in this file to configure database connections and other system resources.
 
-*this project also supports pm2, which can be configured based on the need of the project.*
+## Usage
 
-For any further queries, I am only one mail away [Muhammad Usman](mailto:m.usmanrana154@gmail.com)
+To start the application, follow these steps:
+
+1. Install dependencies:
+
+    ```bash
+    npm install
+    ```
+
+2. Run the application in development mode:
+
+    ```bash
+    npm run start:dev
+    ```
+
+Skeletor also supports PM2, a process manager for Node.js applications. You can configure PM2 based on the specific needs of your project.
+
+## Support
+
+If you have any questions or need assistance, feel free to reach out:
+
+**Muhammad Usman**  
+Email: [m.usmanrana154@gmail.com](mailto:m.usmanrana154@gmail.com)
